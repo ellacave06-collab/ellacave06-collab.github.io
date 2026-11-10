@@ -366,7 +366,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>This is a a story about Womens basketball and I want to see how uno compares to others while they are in the summit league tourney.</p>
+<p>This is a story about Women’s College Basketball and how the University of Nebraska-Omaha compares to other college basketball teams.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -385,7 +385,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 </div>
-<p>this is more of my story</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>wcbb <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/wcbb_stats_25_26.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 363 Columns: 33
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (1): School
+dbl (32): Rk, Games, Overall_Wins, Overall_Losses, Overall_Win_pct, SRS, SOS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wcbb)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 33
+     Rk School    Games Overall_Wins Overall_Losses Overall_Win_pct    SRS   SOS
+  &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1     1 Abilene …    35           24             11           0.686   2.97 -3.59
+2     2 Air Force    35           16             19           0.457  -4.2  -0.99
+3     3 Akron        31            7             24           0.226 -12.8   0.05
+4     4 Alabama …    35           24             11           0.686  25.4  17.0 
+5     5 Alabama …    33           22             11           0.667  -7.38 -9.41
+6     6 Alabama …    32           17             15           0.531 -17.3  -9.5 
+# ℹ 25 more variables: Conf_Wins &lt;dbl&gt;, Conf_Losses &lt;dbl&gt;, Home_Wins &lt;dbl&gt;,
+#   Home_Losses &lt;dbl&gt;, Away_Wins &lt;dbl&gt;, Away_Losses &lt;dbl&gt;, Tm_Points &lt;dbl&gt;,
+#   Opp_Points &lt;dbl&gt;, MP &lt;dbl&gt;, FG &lt;dbl&gt;, FGA &lt;dbl&gt;, FG_pct &lt;dbl&gt;, `3P` &lt;dbl&gt;,
+#   `3PA` &lt;dbl&gt;, `3P_pct` &lt;dbl&gt;, FT &lt;dbl&gt;, FTA &lt;dbl&gt;, FT_pct &lt;dbl&gt;, ORB &lt;dbl&gt;,
+#   TRB &lt;dbl&gt;, AST &lt;dbl&gt;, STL &lt;dbl&gt;, BLK &lt;dbl&gt;, TOV &lt;dbl&gt;, PF &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wcbb <span class="ot">&lt;-</span> wcbb <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Avg_Points =</span> Tm_Points <span class="sc">/</span> Games)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>top_teams <span class="ot">&lt;-</span> wcbb <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Avg_Points)) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">20</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>top_teams <span class="ot">&lt;-</span> top_teams <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(wcbb <span class="sc">|&gt;</span> <span class="fu">filter</span>(School <span class="sc">==</span> <span class="st">"Omaha"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(School, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_teams, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(School, Avg_Points), <span class="at">y =</span> Avg_Points,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">fill =</span> School <span class="sc">==</span> <span class="st">"Omaha"</span>)) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Which Women's Basketball Teams Score the Most?"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Team"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Points Per Game"</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>this is more of my story.</p>
 
 
 
