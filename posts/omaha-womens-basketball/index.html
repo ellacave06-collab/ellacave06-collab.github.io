@@ -387,11 +387,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggalt)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>wcbb_25_26 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/wcbb_stats_25_26.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>wcbb_25_26 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/wcbb_stats_25_26.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 363 Columns: 33
@@ -407,7 +412,7 @@ dbl (32): Rk, Games, Overall_Wins, Overall_Losses, Overall_Win_pct, SRS, SOS...
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(wcbb_25_26)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(wcbb_25_26)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 363
@@ -450,40 +455,40 @@ $ PF              &lt;dbl&gt; 561, 562, 666, 568, 567, 715, 439, 560, 371, 492, 
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wcbb_25_26 <span class="ot">&lt;-</span> wcbb_25_26 <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_points =</span> Tm_Points <span class="sc">/</span> Games</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>wcbb_25_26 <span class="ot">&lt;-</span> wcbb_25_26 <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_points =</span> Tm_Points <span class="sc">/</span> Games</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>top_teams <span class="ot">&lt;-</span> wcbb_25_26 <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_points)) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>top_teams <span class="ot">&lt;-</span> wcbb_25_26 <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_points)) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">15</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>uno <span class="ot">&lt;-</span> wcbb_25_26 <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    School <span class="sc">==</span> <span class="st">"Omaha"</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>uno <span class="ot">&lt;-</span> wcbb_25_26 <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    School <span class="sc">==</span> <span class="st">"Omaha"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>top_teams <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(top_teams, uno)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>top_teams <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(top_teams, uno)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span>School))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span>School))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -496,8 +501,8 @@ $ PF              &lt;dbl&gt; 561, 562, 666, 568, 567, 715, 439, 560, 371, 492, 
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span>School, <span class="at">weight=</span>avg_points))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span>School, <span class="at">weight=</span>avg_points))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -510,8 +515,8 @@ $ PF              &lt;dbl&gt; 561, 562, 666, 568, 567, 715, 439, 560, 371, 492, 
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(School, avg_points), <span class="at">weight=</span>avg_points))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(School, avg_points), <span class="at">weight=</span>avg_points))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -524,10 +529,10 @@ $ PF              &lt;dbl&gt; 561, 562, 666, 568, 567, 715, 439, 560, 371, 492, 
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(School, avg_points), <span class="at">weight=</span>avg_points)) <span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>uno, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(School, avg_points), <span class="at">weight=</span>avg_points), <span class="at">fill=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(School, avg_points), <span class="at">weight=</span>avg_points)) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>uno, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(School, avg_points), <span class="at">weight=</span>avg_points), <span class="at">fill=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -540,23 +545,23 @@ $ PF              &lt;dbl&gt; 561, 562, 666, 568, 567, 715, 439, 560, 371, 492, 
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(School, avg_points), <span class="at">weight=</span>avg_points)) <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>uno, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(School, avg_points), <span class="at">weight=</span>avg_points), <span class="at">fill=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Teams"</span>, </span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Average Points Per Game"</span>, </span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"How Does UNO Compare to the Highest-Scoring Teams?"</span>, </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Average points per game for the top 15 scoring teams in Women's College Basketball, with Omaha highlighted in red."</span>, </span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Sports-Reference | By Ella Cave"</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">16</span>),</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(School, avg_points), <span class="at">weight=</span>avg_points)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>uno, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(School, avg_points), <span class="at">weight=</span>avg_points), <span class="at">fill=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Teams"</span>, </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Average Points Per Game"</span>, </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"How Does UNO's Average Points Per Game Compare to the Highest-Scoring Teams?"</span>, </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Average points per game for the top 15 scoring teams in Women's College Basketball, with Omaha highlighted in red."</span>, </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Sports-Reference | By Ella Cave"</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>),</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -566,53 +571,155 @@ $ PF              &lt;dbl&gt; 561, 562, 666, 568, 567, 715, 439, 560, 371, 492, 
 </div>
 </div>
 </div>
-<p>If you look at the chart above, you can see that there’s a big difference between the top 15 scoring teams and UNO. The top teams are averaging 75 + points per game, and UNO is averaging a little more than 50. This chart shows that UNO scores a lot less per game than the top 15 teams. As I said before scoring does help team win games, but doesn’t mean they are successful all together. Before we think of everything all together, let’s look at a scatterplot comparing UNO’s and the top 15 teams average points scored and average points allowed. This will show whether they have strong defenses and offenses when they win.</p>
+<p>If you look at the chart above, you can see that there’s a big difference between the top 15 scoring teams and UNO. The top teams are averaging 75 + points per game, and UNO is averaging a little more than 50. This chart shows that UNO scores a lot less per game than the top 15 teams. As I said before scoring does help team win games, but doesn’t mean they are successful all together. Before we think of everything all together, let’s look at a scatterplot comparing UNO’s and the top 15 teams average points scored and average points allowed. This will show whether they have strong defenses and offenses.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>uno <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/uno_wbb_stats.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>uno <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/uno_wbb_stats.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 14 Columns: 14
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (3): Season, Conf, Coach(es)
-dbl (11): Rk, Overall_W, Overall_L, Overall_pct, Conf_W, Conf_L, Conf_pct, S...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(uno)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(wcbb_25_26)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 14
-     Rk Season  Conf   Overall_W Overall_L Overall_pct Conf_W Conf_L Conf_pct
-  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
-1     1 2025-26 Summit         6        27       0.182      3     13    0.188
-2     2 2024-25 Summit        14        17       0.452      5     11    0.313
-3     3 2023-24 Summit         8        23       0.258      3     13    0.188
-4     4 2022-23 Summit        15        17       0.469      8     10    0.444
-5     5 2021-22 Summit         7        19       0.269      3     14    0.176
-6     6 2020-21 Summit         7        13       0.35       4      8    0.333
-# ℹ 5 more variables: SRS &lt;dbl&gt;, SOS &lt;dbl&gt;, points_scored_pg &lt;dbl&gt;,
-#   points_allowed_pg &lt;dbl&gt;, `Coach(es)` &lt;chr&gt;</code></pre>
+<pre><code>Rows: 363
+Columns: 34
+$ Rk              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
+$ School          &lt;chr&gt; "Abilene Christian", "Air Force", "Akron", "Alabama NC…
+$ Games           &lt;dbl&gt; 35, 35, 31, 35, 33, 32, 30, 31, 30, 30, 30, 35, 32, 37…
+$ Overall_Wins    &lt;dbl&gt; 24, 16, 7, 24, 22, 17, 14, 17, 7, 11, 12, 24, 12, 27, …
+$ Overall_Losses  &lt;dbl&gt; 11, 19, 24, 11, 11, 15, 16, 14, 23, 19, 18, 11, 20, 10…
+$ Overall_Win_pct &lt;dbl&gt; 0.686, 0.457, 0.226, 0.686, 0.667, 0.531, 0.467, 0.548…
+$ SRS             &lt;dbl&gt; 2.97, -4.20, -12.78, 25.44, -7.38, -17.33, -4.60, -16.…
+$ SOS             &lt;dbl&gt; -3.59, -0.99, 0.05, 17.02, -9.41, -9.50, -5.22, -10.55…
+$ Conf_Wins       &lt;dbl&gt; 13, 7, 4, 7, 17, 12, 4, 14, 5, 4, 3, 9, 1, 14, 10, 14,…
+$ Conf_Losses     &lt;dbl&gt; 5, 13, 14, 9, 1, 6, 12, 4, 13, 14, 15, 9, 15, 4, 8, 4,…
+$ Home_Wins       &lt;dbl&gt; 15, 8, 5, 16, 13, 8, 9, 10, 4, 8, 12, 15, 9, 15, 8, 15…
+$ Home_Losses     &lt;dbl&gt; 2, 6, 10, 4, 1, 4, 5, 4, 10, 7, 8, 2, 9, 3, 3, 2, 7, 1…
+$ Away_Wins       &lt;dbl&gt; 8, 4, 1, 3, 7, 7, 5, 7, 3, 3, 0, 7, 1, 9, 12, 11, 3, 1…
+$ Away_Losses     &lt;dbl&gt; 5, 12, 13, 6, 6, 9, 11, 7, 13, 11, 9, 7, 10, 6, NA, 6,…
+$ Tm_Points       &lt;dbl&gt; 2505, 2108, 2156, 2450, 2038, 1934, 1728, 1783, 1671, …
+$ Opp_Points      &lt;dbl&gt; 2115, 2216, 2410, 2155, 1864, 2121, 1657, 1868, 1989, …
+$ MP              &lt;dbl&gt; 1405, 1405, 1265, 1400, 1324, 1286, 1220, 1244, 1210, …
+$ FG              &lt;dbl&gt; 888, 760, 752, 882, 702, 716, 646, 648, 598, 696, 775,…
+$ FGA             &lt;dbl&gt; 2084.000, 2118.000, 1854.000, 1998.000, 1778.000, 1848…
+$ FG_pct          &lt;dbl&gt; 0.426, 0.359, 0.406, 0.441, 0.395, 0.387, 0.432, 0.371…
+$ `3P`            &lt;dbl&gt; 276, 195, 236, 286, 123, 127, 174, 177, 185, 180, 127,…
+$ `3PA`           &lt;dbl&gt; 881.000, 702.000, 767.000, 785.000, 477.000, 483.000, …
+$ `3P_pct`        &lt;dbl&gt; 0.313, 0.278, 0.308, 0.364, 0.258, 0.263, 0.337, 0.298…
+$ FT              &lt;dbl&gt; 453, 393, 416, 400, 511, 375, 262, 310, 290, 307, 417,…
+$ FTA             &lt;dbl&gt; 593.000, 545.000, 596.000, 552.000, 765.000, 620.000, …
+$ FT_pct          &lt;dbl&gt; 0.764, 0.721, 0.698, 0.725, 0.668, 0.605, 0.688, 0.640…
+$ ORB             &lt;dbl&gt; 426, 420, 341, 354, 441, 464, 277, 359, 281, 311, 226,…
+$ TRB             &lt;dbl&gt; 1219, 1190, 1104, 1276, 1253, 1345, 952, 1099, 1028, 1…
+$ AST             &lt;dbl&gt; 497, 396, 382, 479, 353, 339, 400, 424, 350, 424, 441,…
+$ STL             &lt;dbl&gt; 385, 300, 201, 268, 312, 309, 183, 305, 167, 204, 288,…
+$ BLK             &lt;dbl&gt; 69, 76, 71, 161, 97, 84, 61, 77, 61, 63, 73, 99, 107, …
+$ TOV             &lt;dbl&gt; 528, 451, 584, 522, 632, 755, 453, 577, 451, 479, 492,…
+$ PF              &lt;dbl&gt; 561, 562, 666, 568, 567, 715, 439, 560, 371, 492, 621,…
+$ avg_points      &lt;dbl&gt; 71.57143, 60.22857, 69.54839, 70.00000, 61.75758, 60.4…</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(uno)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 14
+Columns: 14
+$ Rk                &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+$ Season            &lt;chr&gt; "2025-26", "2024-25", "2023-24", "2022-23", "2021-22…
+$ Conf              &lt;chr&gt; "Summit", "Summit", "Summit", "Summit", "Summit", "S…
+$ Overall_W         &lt;dbl&gt; 6, 14, 8, 15, 7, 7, 7, 8, 12, 16, 15, 10, 12, 17
+$ Overall_L         &lt;dbl&gt; 27, 17, 23, 17, 19, 13, 23, 21, 16, 15, 15, 18, 16, …
+$ Overall_pct       &lt;dbl&gt; 0.182, 0.452, 0.258, 0.469, 0.269, 0.350, 0.233, 0.2…
+$ Conf_W            &lt;dbl&gt; 3, 5, 3, 8, 3, 4, 2, 2, 3, 8, 7, 5, 4, 7
+$ Conf_L            &lt;dbl&gt; 13, 11, 13, 10, 14, 8, 14, 14, 11, 8, 9, 11, 10, 9
+$ Conf_pct          &lt;dbl&gt; 0.188, 0.313, 0.188, 0.444, 0.176, 0.333, 0.125, 0.1…
+$ SRS               &lt;dbl&gt; -25.38, -9.53, -13.41, -10.19, -7.08, -4.07, -11.83,…
+$ SOS               &lt;dbl&gt; -0.45, -0.08, -2.17, -2.66, 2.20, 2.74, 0.39, -2.22,…
+$ points_scored_pg  &lt;dbl&gt; 54.1, 67.7, 72.3, 66.1, 57.2, 61.9, 60.0, 59.8, 63.8…
+$ points_allowed_pg &lt;dbl&gt; 76.0, 73.5, 81.2, 70.6, 65.0, 68.7, 69.0, 66.4, 72.8…
+$ `Coach(es)`       &lt;chr&gt; "Jamie Carey (6-27)", "Carrie Banks (14-17)", "Carri…</code></pre>
 </div>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>avg_pts_pg <span class="ot">&lt;-</span> uno <span class="sc">|&gt;</span> <span class="fu">mutate</span>(Overall_W <span class="sc">+</span> Overall_L <span class="sc">/</span>points_scored_pg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>uno <span class="ot">&lt;-</span> uno <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Season <span class="sc">==</span> <span class="st">"2025-26"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>top_teams <span class="ot">&lt;-</span> top_teams <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_points_allowed =</span> Opp_Points <span class="sc">/</span> Games</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span>avg_points, <span class="at">y=</span>avg_points_allowed)) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>uno, <span class="fu">aes</span>(<span class="at">x=</span>points_scored_pg, <span class="at">y=</span>points_allowed_pg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span>avg_points, <span class="at">y=</span>avg_points_allowed)) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>uno, <span class="fu">aes</span>(<span class="at">x=</span>points_scored_pg, <span class="at">y=</span>points_allowed_pg), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>top_teams, <span class="fu">aes</span>(<span class="at">x=</span>avg_points, <span class="at">y=</span>avg_points_allowed)) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>uno, <span class="fu">aes</span>(<span class="at">x=</span>points_scored_pg, <span class="at">y=</span>points_allowed_pg), <span class="at">color=</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Average Scored Points"</span>, </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Average Allowed Points"</span>, </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Does a Strong Offense Mean a Strong Defense?"</span>, </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Comparing average points scored and points allowed per game among the top 15 scoring teams in women's college basketball, with UNO highlighted in red."</span>, </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: Sports-Reference | By Ella Cave"</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>), </span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>   )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 
 
