@@ -367,9 +367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This is a story about Women’s College Basketball and how the University of Nebraska-Omaha compares to other college basketball teams.</p>
-<p>Scoring points is one of the biggest ways teams win games, but it isn’t the only thing that contributes to a win. A team’s defense and ability to handle the basketball can also create a huge difference in a game. Now, in women’s college basketball, some teams score a lot more points on average than other teams, but does that mean they are more successful than other lower-scoring teams?</p>
-<p>For this project, I wanted to look at women’s college basketball team stats from the 2025-26 season to see what stats might be related to the success of teams. I also want to look at the average points scored, the average points teams allow, and their turnover margin. Then connect that to how the University of Nebraska-Omaha women’s basketball team compares to others.</p>
-<p>My first chart is a bar chart talking about the women’s college basketball teams with the highest average points and how UNO differs from them.</p>
+<p>Scoring points is one of the biggest ways teams win games, but it isn’t the only thing that contributes to a win. A team’s defense and ability to handle the basketball can also create a huge difference in a game. Now, in women’s college basketball, some teams score a lot more points on average than other teams, but does that mean they are more successful than other lower-scoring teams? For this project, I wanted to look at women’s college basketball team stats from the 2025-26 season to see what stats might be related to the success of teams. I also want to look at the average points scored, the average points teams allow, and their turnover margin. Then connect that to how the University of Nebraska-Omaha women’s basketball team compares to others. My first chart is a bar chart talking about the women’s college basketball teams with the highest average points and how UNO differs from them.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -555,7 +553,7 @@ $ PF              &lt;dbl&gt; 561, 562, 666, 568, 567, 715, 439, 560, 371, 492, 
 </div>
 </div>
 </div>
-<p>If you look at the chart above, you can see that there’s a big difference between the top 15 scoring teams and UNO. The top teams are averaging 75 + points per game, and UNO is averaging a little more than 50. This chart shows that UNO scores a lot less per game than the top 15 teams. As I said before scoring does help team win games, but doesn’t mean they are successful all together. Before we think of everything all together, let’s look at a scatterplot comparing UNO’s average points scored and average points allowed. This will show whether they have strong defenses and offenses when they win.</p>
+<p>If you look at the chart above, you can see that there’s a big difference between the top 15 scoring teams and UNO. The top teams are averaging 75 + points per game, and UNO is averaging a little more than 50. This chart shows that UNO scores a lot less per game than the top 15 teams. As I said before scoring does help teams win games, but doesn’t mean they are successful all together. Before we think of everything all together, let’s look at a scatterplot comparing UNO’s average points scored and average points allowed. This will show whether they have strong defenses and offenses when they win.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -706,8 +704,7 @@ $ `Coach(es)`       &lt;chr&gt; "Jamie Carey (6-27)", "Carrie Banks (14-17)", "C
 </div>
 </div>
 </div>
-<p>The scatterplot shows how the top 15 scoring teams and UNO compare in offense and defense through the points they allowed and points they scored. The top 15 teams on the right side show that they are scoring more and are letting their opponents fewer points. This shows that having a strong offense doesn’t always mean a team has the strongest defense.</p>
-<p>As you can see, the red dot is UNO. UNO has scored a lot fewer points than the top 15 teams, and they have allowed more points to opponents. UNO doesn’t have the same outcome as the top-scoring teams in women’s college basketball, as you can tell by their lower scoring percentage. But I will say the points scored and points allowed are still not the only stats that can help a team be successful. One more stat I want to look at is the turnover margin for teams and how well a team can take care of the ball.</p>
+<p>The scatterplot shows how the top 15 scoring teams and UNO compare in offense and defense through the points they allowed and points they scored. The top 15 teams on the right side show that they are scoring more and are letting their opponents fewer points. This shows that having a strong offense doesn’t always mean a team has the strongest defense. UNO is that far red dot, as you can see, they have scored a lot fewer points than the top 15 teams, and they have allowed more points to opponents. UNO doesn’t have the same outcome as the top-scoring teams in women’s college basketball, looking at their lower scoring percentage. But I will say the points scored and points allowed are still not the only stats that can help a team be successful. One more stat I want to look at is the turnover margin for teams and how well a team can take care of the ball.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -868,7 +865,14 @@ $ lead_percentage                   &lt;chr&gt; "0", "98", "5", "95", "63", "25"
 <span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Comparing average turnovers and points scored among women's college basketball teams, with Omaha highlighted in red."</span>,</span>
 <span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: wehoop | By Ella Cave"</span></span>
 <span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a> <span class="fu">theme</span>(</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>), </span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>     <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -878,8 +882,7 @@ $ lead_percentage                   &lt;chr&gt; "0", "98", "5", "95", "63", "25"
 </div>
 </div>
 </div>
-<p>The chart shows that teams with fewer turnovers and higher scoring averages have more wins. UNO is highlighted and looks to be a little below average compared to the rest of the teams. Although UNO isn’t turning the ball over that much, they still have a lower scoring average. This shows that taking care of the ball does help teams win.</p>
-<p>After looking at the bar chart, scatterplot, and bubble chart, I think that there is more than one specific thing that makes a successful college basketball team. Now, scoring points, having a strong defense, and limiting turnovers can really make a difference in being a successful team. Overall, for teams that can succeed in all three things and turn those good stats into actual wins can have a better chance at being successful.</p>
+<p>The chart shows that teams with fewer turnovers and higher scoring averages have more wins. UNO is highlighted and looks to be a little below average compared to the rest of the women’s college basketball teams. Although UNO isn’t turning the ball over that much, they still have a lower scoring average. This shows that taking care of the ball does help teams win. After looking at the bar chart, scatterplot, and bubble chart, I think that there is more than one specific thing that makes a successful college basketball team. Scoring points, having a strong defense, and limiting turnovers can really make a difference in being a successful team. Overall, for teams that can succeed in all three things and turn those good stats into actual wins can have a better chance at being successful.</p>
 
 
 
