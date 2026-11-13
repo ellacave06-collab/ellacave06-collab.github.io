@@ -576,7 +576,8 @@ $ PF              &lt;dbl&gt; 561, 562, 666, 568, 567, 715, 439, 560, 371, 492, 
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>uno <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/uno_wbb_stats.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>uno <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/uno_wbb_stats.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
@@ -721,6 +722,180 @@ $ `Coach(es)`       &lt;chr&gt; "Jamie Carey (6-27)", "Carrie Banks (14-17)", "C
 </div>
 </div>
 </div>
+<p>The scatterplot shows how the top 15 scoring teams and UNO compare in offense and defense through the points they allowed and points they scored. The top 15 teams on the right side show that they are scoring more and are letting their opponents fewer points. This shows that having a strong offense doesn’t always mean a team has the strongest defense.</p>
+<p>As you can see, there is a red dot; that is UNO. UNO has scored a lot fewer points than the top 15 teams, and they have allowed more points to opponents. UNO doesn’t have the same outcome as the top-scoring teams in women’s college basketball, as you can tell because they don’t have a very high scoring percentage. But I will say the points scored and points allowed are still not the only stats that can help a team be successful. One more stat I want to look at is the turnover margin for teams and how well a team can take care of the ball.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wehoop)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>wbb_team_box_2026 <span class="ot">&lt;-</span> wehoop<span class="sc">::</span><span class="fu">load_wbb_team_box</span>(<span class="at">seasons =</span> <span class="dv">2026</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(wbb_team_box_2026)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 12,058
+Columns: 58
+$ game_id                           &lt;int&gt; 401856590, 401856590, 401865139, 401…
+$ season                            &lt;int&gt; 2026, 2026, 2026, 2026, 2026, 2026, …
+$ season_type                       &lt;int&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, …
+$ game_date                         &lt;date&gt; 2026-04-05, 2026-04-05, 2026-04-04,…
+$ game_date_time                    &lt;dttm&gt; 2026-04-05 15:30:00, 2026-04-05 15:…
+$ team_id                           &lt;int&gt; 2579, 26, 2287, 276, 2579, 41, 251, …
+$ team_uid                          &lt;chr&gt; "s:40~l:54~t:2579", "s:40~l:54~t:26"…
+$ team_slug                         &lt;chr&gt; "south-carolina-gamecocks", "ucla-br…
+$ team_location                     &lt;chr&gt; "South Carolina", "UCLA", "Illinois …
+$ team_name                         &lt;chr&gt; "Gamecocks", "Bruins", "Redbirds", "…
+$ team_abbreviation                 &lt;chr&gt; "SC", "UCLA", "ILST", "MRSH", "SC", …
+$ team_display_name                 &lt;chr&gt; "South Carolina Gamecocks", "UCLA Br…
+$ team_short_display_name           &lt;chr&gt; "South Carolina", "UCLA", "Illinois …
+$ team_color                        &lt;chr&gt; "73000a", "2774ae", "CE1126", "00b14…
+$ team_alternate_color              &lt;chr&gt; "000000", "f2a900", "ffe716", "00000…
+$ team_logo                         &lt;chr&gt; "https://a.espncdn.com/i/teamlogos/n…
+$ team_home_away                    &lt;chr&gt; "away", "home", "away", "home", "awa…
+$ team_score                        &lt;int&gt; 51, 79, 41, 66, 62, 48, 44, 51, 81, …
+$ team_winner                       &lt;lgl&gt; FALSE, TRUE, FALSE, TRUE, TRUE, FALS…
+$ assists                           &lt;int&gt; 9, 23, 7, 15, 12, 15, 11, 13, 14, 8,…
+$ blocks                            &lt;int&gt; 4, 5, 2, 8, 2, 3, 1, 6, 4, 8, 3, 3, …
+$ defensive_rebounds                &lt;int&gt; 20, 28, 21, 22, 33, 23, 19, 30, 34, …
+$ fast_break_points                 &lt;chr&gt; "6", "11", "4", "16", "16", "9", "6"…
+$ field_goal_pct                    &lt;dbl&gt; 29, 43, 29, 49, 38, 31, 31, 41, 37, …
+$ field_goals_made                  &lt;int&gt; 18, 30, 14, 28, 21, 19, 20, 18, 24, …
+$ field_goals_attempted             &lt;int&gt; 62, 69, 48, 57, 56, 61, 65, 44, 65, …
+$ fouls                             &lt;int&gt; 17, 17, 6, 11, 8, 17, 16, 12, 18, 26…
+$ free_throw_pct                    &lt;dbl&gt; 76, 85, 83, 100, 82, 67, 40, 92, 71,…
+$ free_throws_made                  &lt;int&gt; 13, 11, 10, 4, 18, 4, 2, 11, 25, 8, …
+$ free_throws_attempted             &lt;int&gt; 17, 13, 12, 4, 22, 6, 5, 12, 35, 15,…
+$ largest_lead                      &lt;chr&gt; "0", "35", "3", "26", "15", "7", "2"…
+$ offensive_rebounds                &lt;int&gt; 17, 21, 12, 8, 14, 9, 17, 7, 20, 20,…
+$ points_in_paint                   &lt;chr&gt; "28", "40", "18", "44", "34", "20", …
+$ steals                            &lt;int&gt; 6, 7, 8, 15, 9, 10, 14, 5, 10, 21, 1…
+$ team_turnovers                    &lt;int&gt; 1, 4, 1, 1, 2, 0, 1, 1, 0, 0, 3, 2, …
+$ technical_fouls                   &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ three_point_field_goal_pct        &lt;dbl&gt; 13, 42, 18, 27, 33, 29, 22, 31, 35, …
+$ three_point_field_goals_made      &lt;int&gt; 2, 8, 3, 6, 2, 6, 2, 4, 8, 4, 6, 8, …
+$ three_point_field_goals_attempted &lt;int&gt; 15, 19, 17, 22, 6, 21, 9, 13, 23, 23…
+$ total_rebounds                    &lt;int&gt; 37, 49, 33, 30, 47, 32, 36, 37, 54, …
+$ total_technical_fouls             &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ total_turnovers                   &lt;int&gt; 14, 13, 23, 13, 15, 10, 12, 23, 22, …
+$ turnover_points                   &lt;chr&gt; "10", "19", "8", "17", "8", "18", "1…
+$ turnovers                         &lt;int&gt; 14, 13, 23, 13, 15, 10, 12, 23, 22, …
+$ opponent_team_id                  &lt;int&gt; 26, 2579, 276, 2287, 41, 2579, 26, 2…
+$ opponent_team_uid                 &lt;chr&gt; "s:40~l:54~t:26", "s:40~l:54~t:2579"…
+$ opponent_team_slug                &lt;chr&gt; "ucla-bruins", "south-carolina-gamec…
+$ opponent_team_location            &lt;chr&gt; "UCLA", "South Carolina", "Marshall"…
+$ opponent_team_name                &lt;chr&gt; "Bruins", "Gamecocks", "Thundering H…
+$ opponent_team_abbreviation        &lt;chr&gt; "UCLA", "SC", "MRSH", "ILST", "CONN"…
+$ opponent_team_display_name        &lt;chr&gt; "UCLA Bruins", "South Carolina Gamec…
+$ opponent_team_short_display_name  &lt;chr&gt; "UCLA", "South Carolina", "Marshall"…
+$ opponent_team_color               &lt;chr&gt; "2774ae", "73000a", "00b140", "CE112…
+$ opponent_team_alternate_color     &lt;chr&gt; "f2a900", "000000", "000000", "ffe71…
+$ opponent_team_logo                &lt;chr&gt; "https://a.espncdn.com/i/teamlogos/n…
+$ opponent_team_score               &lt;int&gt; 79, 51, 66, 41, 48, 62, 51, 44, 64, …
+$ lead_changes                      &lt;chr&gt; "0", "0", "1", "1", "4", "4", "1", "…
+$ lead_percentage                   &lt;chr&gt; "0", "98", "5", "95", "63", "25", "2…</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>turnovers <span class="ot">&lt;-</span> wbb_team_box_2026 <span class="sc">|&gt;</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(team_location) <span class="sc">|&gt;</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_turnovers =</span> <span class="fu">mean</span>(total_turnovers),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_points_scored =</span> <span class="fu">mean</span>(team_score),</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_wins =</span> <span class="fu">sum</span>(team_winner)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>turnovers, </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>avg_turnovers, <span class="at">y=</span>avg_points_scored, <span class="at">size=</span>total_wins),</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">"grey"</span>, </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha=</span>.<span class="dv">3</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>uno <span class="ot">&lt;-</span> turnovers <span class="sc">|&gt;</span> <span class="fu">filter</span>(team_location <span class="sc">==</span> <span class="st">"Omaha"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>turnovers, </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>avg_turnovers, <span class="at">y=</span>avg_points_scored, <span class="at">size=</span>total_wins), </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">"grey"</span>, </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha=</span>.<span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>uno, </span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>avg_turnovers, <span class="at">y=</span>avg_points_scored, <span class="at">size=</span>total_wins), </span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>(</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>turnovers, </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>avg_turnovers, <span class="at">y=</span>avg_points_scored, <span class="at">size=</span>total_wins), </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">"grey"</span>, </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha=</span>.<span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>(</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>uno, </span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>avg_turnovers, <span class="at">y=</span>avg_points_scored, <span class="at">size=</span>total_wins), </span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>uno, </span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>avg_turnovers, <span class="at">y=</span>avg_points_scored, <span class="at">label=</span>team_location)</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">"Average Turnovers Per Game"</span>,</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">"Average Points Scored Per Game"</span>,</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">"Does Taking Care of the Basketball Help Teams Win?"</span>,</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle=</span><span class="st">"Comparing average turnovers and points scored among women's college basketball teams, with Omaha highlighted in red."</span>,</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption=</span><span class="st">"Source: wehoop | By Ella Cave"</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The chart shows that teams with fewer turnovers and higher scoring averages have more wins. UNO is highlighted and looks to be a little below average compared to the rest of the teams. Although UNO isn’t turning the ball over that much, they still have a lower scoring average. This shows that taking care of the ball does help teams win.</p>
+<p>After looking at the bar chart, scatterplot, and bubble chart, I think that there is more than one specific thing that makes a successful college basketball team. Now, scoring points, having a strong defense, and limiting turnovers can really make a difference in being a successful team. Overall, for teams that can succeed in all three things and turn those good stats into actual wins can have a better chance at being successful.</p>
 
 
 
